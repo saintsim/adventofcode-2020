@@ -4,34 +4,33 @@ MAZE = []
 
 
 def maze_trees(lines):
-    init_maze(lines)
-    return traverse_maze()
+    return traverse_maze(init_maze(lines), 3, 1)
 
 
-def traverse_maze():
+def traverse_maze(maze, x_change, y_change):
     #  x --->
     #        !
     #        \/
     #         y
-    x = 0
-    y = 0
-    tree_count = 0
+    x, y, tree_count = 0, 0, 0
     while True:
-        if y >= len(MAZE):
+        if y >= len(maze):
             return tree_count
-        cell_contents = MAZE[y][x % len(MAZE[0])]
+        cell_contents = maze[y][x % len(maze[0])]
         if cell_contents is "#":
             tree_count += 1
-        x += 3
-        y += 1
+        x += x_change
+        y += y_change
 
 
 def init_maze(lines):
+    maze = []
     for line in lines:
         row = []
         for cell in line:
             row.append(cell)
-        MAZE.append(row)
+        maze.append(row)
+    return maze
 
 
 if __name__ == '__main__':
