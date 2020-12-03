@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-MAZE = []
-
 
 def maze_trees(lines):
     return traverse_maze(init_maze(lines), 3, 1)
