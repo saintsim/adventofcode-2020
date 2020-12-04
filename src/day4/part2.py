@@ -21,7 +21,7 @@ def valid_passport(passport):
         return False
     if not(2020 <= int(passport["eyr"]) <= 2030):
         return False
-    height_unit = re.search('(.+)(cm|in)', passport["hgt"])
+    height_unit = re.match('(.+)(cm|in)', passport["hgt"])
     if height_unit is None or len(height_unit.groups()) != 2:
         return False
     height, unit = height_unit.groups()
@@ -29,10 +29,10 @@ def valid_passport(passport):
         return False
     if unit == "in" and (not (59 <= int(height) <= 76)):
         return False
-    hair_colour = re.search('(#[0-9a-f]{6})', passport["hcl"])
+    hair_colour = re.match('(#[0-9a-f]{6})', passport["hcl"])
     if hair_colour is None or hair_colour.groups()[0] != passport["hcl"]:
         return False
-    eye_colour = re.search('(amb|blu|brn|gry|grn|hzl|oth)', passport["ecl"])
+    eye_colour = re.match('(amb|blu|brn|gry|grn|hzl|oth)', passport["ecl"])
     if eye_colour is None or eye_colour.groups()[0] != passport["ecl"]:
         return False
     if len(passport["pid"]) != 9:
@@ -50,9 +50,9 @@ def parse_passport_data(lines):
             continue
         for token in line.split(" "):
             token = token.strip()
-            key_value = token.split(":")
-            if key_value[0] != "cid":
-                passport[key_value[0]] = key_value[1]
+            key, value = token.split(":")
+            if key != "cid":
+                passport[key] = value
     passports.append(passport)
     return passports
 

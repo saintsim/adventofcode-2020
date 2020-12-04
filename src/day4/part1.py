@@ -19,9 +19,9 @@ def parse_passport_data(lines):
             continue
         for token in line.split(" "):
             token = token.strip()
-            key_value = token.split(":")
-            if key_value[0] != "cid":
-                passport[key_value[0]] = key_value[1]
+            key, value = token.split(":")
+            if key != "cid":
+                passport[key] = value
     passports.append(passport)
     return passports
 
