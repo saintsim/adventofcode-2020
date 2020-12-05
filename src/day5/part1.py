@@ -19,7 +19,7 @@ def get_seat_id(seat):
 
 
 def get_row_col_id(seat, lower, upper):
-    if seat[0] == "F" or seat[0] == "L":
+    if seat[0] in ['F', 'L']:
         # lower (F/L)
         if len(seat) == 1:
             return lower
