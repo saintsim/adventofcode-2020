@@ -29,11 +29,11 @@ def valid_passport(passport):
         return False
     if unit == "in" and (not (59 <= int(height) <= 76)):
         return False
-    hair_colour = re.match('(#[0-9a-f]{6})', passport["hcl"])
-    if hair_colour is None or hair_colour.groups()[0] != passport["hcl"]:
+    hair_colour = re.match('(#[0-9a-f]{6}$)', passport["hcl"])
+    if hair_colour is None:
         return False
-    eye_colour = re.match('(amb|blu|brn|gry|grn|hzl|oth)', passport["ecl"])
-    if eye_colour is None or eye_colour.groups()[0] != passport["ecl"]:
+    eye_colour = re.match('(amb|blu|brn|gry|grn|hzl|oth)$', passport["ecl"])
+    if eye_colour is None:
         return False
     if len(passport["pid"]) != 9:
         return False
