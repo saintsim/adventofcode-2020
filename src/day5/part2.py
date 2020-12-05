@@ -8,7 +8,7 @@ def get_highest_seat_id(lines):
     for line in lines:
         seat_ids.append(get_seat_id(line))
     seat_ids.sort()
-    full_list = range(seat_ids[0], len(seat_ids)+1)
+    full_list = range(seat_ids[0], seat_ids[0]+len(seat_ids)+1)
     return set(full_list)-set(seat_ids)
 
 
