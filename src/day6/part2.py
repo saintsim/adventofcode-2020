@@ -9,16 +9,17 @@ def size_of_intersection(lists):
 
 
 def customs_form_sum(lines):
-    total, groups = 0, []
+    total, group = 0, []
     for line in lines:
-        group = set()
+        person = set()
         if line == "\n":
-            total += size_of_intersection(groups)
-            groups = []
+            total += size_of_intersection(group)
+            group = []
         else:
-            [group.add(token) for token in line if token != '\n']
-            groups.append(group)
-    return total + size_of_intersection(groups)
+            for token in line.strip():
+                person.add(token)
+            group.append(person)
+    return total + size_of_intersection(group)
 
 
 if __name__ == '__main__':
