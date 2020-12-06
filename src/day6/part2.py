@@ -3,7 +3,8 @@
 
 def size_of_intersection(lists):
     intersection_set = set(lists[0])
-    [intersection_set.intersection_update(this_list) for this_list in lists[1:]]
+    for this_list in lists[1:]:
+        intersection_set.intersection_update(this_list)
     return len(intersection_set)
 
 

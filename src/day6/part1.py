@@ -8,7 +8,8 @@ def customs_form_sum(lines):
             total += len(group)
             group = set()
         else:
-            [group.add(token) for token in line if token != '\n']
+            for token in line.strip():
+                group.add(token)
     return total + len(group)
 
 
