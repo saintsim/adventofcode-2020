@@ -38,13 +38,13 @@ def populate_containing_colour_matches(colour):
 def parse(lines):
     for line in lines:
         bags = re.match('(.+) bags contain (.+).', line)
-        if bags is not None:
+        if bags:
             outer_bag_colour, inner_bags = bags.groups()
             if outer_bag_colour not in BAGS:
                 BAGS[outer_bag_colour] = Bag(outer_bag_colour)
             for inner_bag in inner_bags.split(','):
                 inner_bags_matches = re.match('([0-9]*) (.+) bag', inner_bag.strip())
-                if inner_bags_matches is not None:
+                if inner_bags_matches:
                     inner_bag_qty, inner_bag_colour = inner_bags_matches.groups()
                     BAGS[outer_bag_colour].update_directly_contains(inner_bag_colour, int(inner_bag_qty))
                     if inner_bag_colour in BAGS:

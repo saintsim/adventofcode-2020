@@ -12,12 +12,11 @@ def individual_bag_size(lines, colour_to_find):
 
 
 def get_individual_bag_count(colour, qty):
-    if colour in BAGS:
-        for matched_colour, matched_colour_qty in BAGS[colour].directly_contains.items():
-            global RESULT
-            RESULT += matched_colour_qty * qty
-            if matched_colour in BAGS:
-                get_individual_bag_count(matched_colour, matched_colour_qty * qty)
+    for matched_colour, matched_colour_qty in BAGS[colour].directly_contains.items():
+        global RESULT
+        RESULT += matched_colour_qty * qty
+        if matched_colour in BAGS:
+            get_individual_bag_count(matched_colour, matched_colour_qty * qty)
 
 
 if __name__ == '__main__':
