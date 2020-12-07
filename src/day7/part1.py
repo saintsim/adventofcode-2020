@@ -29,11 +29,10 @@ def bag_colours(lines, colour_to_find):
 
 
 def populate_containing_colour_matches(colour):
-    if colour in BAGS:
-        for inner_bag_colour in BAGS[colour].directly_contained_by:
-            print("Match: " + inner_bag_colour)
-            MATCHES.add(inner_bag_colour)
-            populate_containing_colour_matches(inner_bag_colour)
+    for inner_bag_colour in BAGS[colour].directly_contained_by:
+        print("Match: " + inner_bag_colour)
+        MATCHES.add(inner_bag_colour)
+        populate_containing_colour_matches(inner_bag_colour)
     
     
 def parse(lines):
@@ -41,19 +40,13 @@ def parse(lines):
         bags = re.match('(.+) bags contain (.+).', line)
         if bags is not None:
             outer_bag_colour, inner_bags = bags.groups()
-            if outer_bag_colour in BAGS:
-                outer_bag_entry = BAGS[outer_bag_colour]
-            else:
-                outer_bag_entry = Bag(outer_bag_colour)
+            if outer_bag_colour not in BAGS:
+                BAGS[outer_bag_colour] = Bag(outer_bag_colour)
             for inner_bag in inner_bags.split(','):
-                if inner_bag == "no other bags" and outer_bag_colour not in BAGS:
-                    BAGS[outer_bag_colour] = Bag(outer_bag_colour)
-                    print(outer_bag_colour + " contains: nothing")
-                    continue
-                inner_bags_matches = re.match('([0-9]*) (.+) bag|bags', inner_bag.strip())
+                inner_bags_matches = re.match('([0-9]*) (.+) bag', inner_bag.strip())
                 if inner_bags_matches is not None:
                     inner_bag_qty, inner_bag_colour = inner_bags_matches.groups()
-                    outer_bag_entry.update_directly_contains(inner_bag_colour, int(inner_bag_qty))
+                    BAGS[outer_bag_colour].update_directly_contains(inner_bag_colour, int(inner_bag_qty))
                     if inner_bag_colour in BAGS:
                         BAGS[inner_bag_colour].directly_contained_by.add(outer_bag_colour)
                     else:
@@ -61,7 +54,6 @@ def parse(lines):
                         new_inner_bag_entry.directly_contained_by.add(outer_bag_colour)
                         BAGS[inner_bag_colour] = new_inner_bag_entry
                     print(str(outer_bag_colour + " contains: " + str(inner_bag_qty) + "x " + inner_bag_colour))
-            BAGS[outer_bag_colour] = outer_bag_entry
 
 
 if __name__ == '__main__':
