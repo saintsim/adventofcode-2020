@@ -15,8 +15,8 @@ class Instruction:
 
 
 def accumulator(lines):
-    program = parse(lines)
-    return run_program(program)[1]
+    _, total = run_program(parse(lines))
+    return total
 
 
 def run_program(program):

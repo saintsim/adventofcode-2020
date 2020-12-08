@@ -9,9 +9,9 @@ def accumulator(lines):
     for line_to_change in range(len(program)):
         new_program = change_line_x(deepcopy(program), line_to_change)
         if new_program:
-            run_output = run_program(new_program)
-            if run_output[0] == 'finite':
-                return run_output[1]
+            loop_type, total = run_program(new_program)
+            if loop_type == 'finite':
+                return total
 
 
 def change_line_x(program, line_to_change):
