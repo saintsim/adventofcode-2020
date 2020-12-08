@@ -8,7 +8,7 @@ class Instruction:
         # operation (acc, jmp, or nop)
         # argument (a signed number like +4 or -20)
         self.operation = operation
-        self.value = value
+        self.value = int(value)
 
     def __str__(self):
         return self.operation + ' ' + self.value
@@ -36,11 +36,7 @@ def run_program(program):
 
 
 def parse(lines):
-    program = []
-    for line in lines:
-        operation, number = line.split()
-        program.append(Instruction(operation, int(number)))
-    return program
+    return [Instruction(*line.split()) for line in lines]
 
 
 if __name__ == '__main__':
