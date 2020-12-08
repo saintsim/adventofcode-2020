@@ -38,7 +38,7 @@ def run_program(program):
 def parse(lines):
     program = []
     for line in lines:
-        operation, number = re.match(r'(acc|jmp|nop) ([-+]\d+)', line).groups()
+        operation, number = line.split()
         program.append(Instruction(operation, int(number)))
     return program
 
