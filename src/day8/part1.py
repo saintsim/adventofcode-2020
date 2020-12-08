@@ -16,14 +16,14 @@ class Instruction:
 
 def accumulator(lines):
     program = parse(lines)
-    return run_program(program)
+    return run_program(program)[1]
 
 
 def run_program(program):
     total, i, lines_visited = 0, 0, set()
-    while True:
+    while i < len(program):
         if i in lines_visited:
-            return total
+            return 'infinite', total
         else:
             lines_visited.add(i)
         op, val = program[i].operation, program[i].value
@@ -33,6 +33,7 @@ def run_program(program):
             i = i + val
             continue
         i += 1
+    return 'finite', total
 
 
 def parse(lines):

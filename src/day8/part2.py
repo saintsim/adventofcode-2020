@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from src.day8.part1 import parse
+from src.day8.part1 import parse, run_program
 from copy import deepcopy
 
 
@@ -10,8 +10,8 @@ def accumulator(lines):
         new_program = change_line_x(deepcopy(program), line_to_change)
         if new_program:
             run_output = run_program(new_program)
-            if run_output:
-                return run_output
+            if run_output[0] == 'finite':
+                return run_output[1]
 
 
 def change_line_x(program, line_to_change):
@@ -21,23 +21,6 @@ def change_line_x(program, line_to_change):
     else:
         return None
     return program
-
-
-def run_program(program):
-    total, i, lines_visited = 0, 0, set()
-    while i < len(program):
-        if i in lines_visited:
-            return None
-        else:
-            lines_visited.add(i)
-        op, val = program[i].operation, program[i].value
-        if op == 'acc':
-            total += val
-        elif op == 'jmp':
-            i = i + val
-            continue
-        i += 1
-    return total
 
 
 if __name__ == '__main__':
