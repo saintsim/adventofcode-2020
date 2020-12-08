@@ -24,13 +24,12 @@ def run_program(program):
     while i < len(program):
         if i in lines_visited:
             return 'infinite', total
-        else:
-            lines_visited.add(i)
+        lines_visited.add(i)
         op, val = program[i].operation, program[i].value
         if op == 'acc':
             total += val
         elif op == 'jmp':
-            i = i + val
+            i += val
             continue
         i += 1
     return 'finite', total
