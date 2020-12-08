@@ -38,10 +38,9 @@ def run_program(program):
 def parse(lines):
     program = []
     for line in lines:
-        tokens = re.match(r'(acc|jmp|nop) (\-|\+)(\d+)', line)
+        tokens = re.match(r'(acc|jmp|nop) ([-+]\d+)', line)
         if tokens:
-            operation, sign, number = tokens.groups()
-            number = number if sign == '+' else -1 * int(number)
+            operation, number = tokens.groups()
             program.append(Instruction(operation, int(number)))
     return program
 
