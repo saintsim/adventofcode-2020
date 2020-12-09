@@ -3,8 +3,7 @@
 
 def previous_pairs(lines, preamble_amount):
     for x in range(preamble_amount, len(lines)):
-        previous_set = lines[x - preamble_amount:x]
-        if not in_previous_set(lines[x], previous_set):
+        if not in_previous_set(lines[x], lines[x - preamble_amount:x]):
             return lines[x]
 
 
