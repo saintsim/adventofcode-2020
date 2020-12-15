@@ -11,7 +11,7 @@ def number_spoken(sequence, iterations):
         add_item(idx, val)
     prev = sequence[-1]
     for i in range(len(sequence), iterations):
-        next = 0 if COUNT[prev] < 2 else SEEN_BEFORE[prev][1] - SEEN_BEFORE[prev][0]
+        next = 0 if COUNT[prev] == 1 else SEEN_BEFORE[prev][1] - SEEN_BEFORE[prev][0]
         add_item(i, next)
         prev = next
     return prev
