@@ -9,7 +9,7 @@ def bit_mask(lines):
         mask = re.match('mask = ([X10]+)', lines[i]).groups()[0]
         i += 1
         while i < len(lines) and 'mem' in lines[i]:
-            index, value = re.match(r'^mem\[(\d+)\] = (\d+)$', lines[i]).groups()
+            index, value = re.match(r'mem\[(\d+)\] = (\d+)$', lines[i]).groups()
             value_bin = "{:0>36b}".format(int(value))
             result_bin = ''
             for idx, value_bit in enumerate(value_bin):
