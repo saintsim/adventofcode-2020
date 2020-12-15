@@ -1,23 +1,28 @@
 #!/usr/bin/env python3
 
+from collections import Counter
 
-def number_spoken(lines):
-    sequence = list(map(int, lines[0].split(',')))
-    i = len(sequence)
+SEEN_BEFORE = dict()
+COUNT = Counter()
+
+
+def number_spoken(sequence, iterations):
+    for idx, val in enumerate(sequence):
+        add_item(idx, val)
     prev = sequence[-1]
-    while i < 2020:
-        if prev not in sequence[:-1]:
-            next = 0
-        else:
-            past_occurences = [i for i, x in enumerate(sequence) if x == prev]
-            next = past_occurences[-1] - past_occurences[-2]
-        sequence.append(next)
+    for i in range(len(sequence), iterations):
+        next = 0 if COUNT[prev] < 2 else SEEN_BEFORE[prev][1] - SEEN_BEFORE[prev][0]
+        add_item(i, next)
         prev = next
-        i += 1
     return prev
+
+
+def add_item(idx, val):
+    SEEN_BEFORE[val] = [SEEN_BEFORE[val][-1], idx] if COUNT[val] > 0 else [idx]
+    COUNT[val] += 1
 
 
 if __name__ == '__main__':
     with open('input', 'r') as file:
-        lines = [line.strip() for line in file.readlines()]
-        print('Result: ' + str(number_spoken(lines)))
+        lines = list(map(int, file.readline().split(',')))
+        print('Result: ' + str(number_spoken(lines, 2020)))
