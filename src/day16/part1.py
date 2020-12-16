@@ -24,15 +24,15 @@ class TicketFieldRules:
 def ticket_scanning(lines):
     your_ticket, nearby_tickets, rules = parse(lines)
     valid_numbers = set()
-    invalid_numbers = list()
+    invalid_sum = 0
     for rule in rules:
         for i in rule.valid_numbers:
             valid_numbers.add(i)
     for nearby_ticket in nearby_tickets:
         for ticket_id in nearby_ticket:
             if ticket_id not in valid_numbers:
-                invalid_numbers.append(ticket_id)
-    return sum(invalid_numbers)
+                invalid_sum += ticket_id
+    return invalid_sum
 
 
 def parse(lines):
