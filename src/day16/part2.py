@@ -14,10 +14,7 @@ def find_ticket_fields(lines):
             for rule in rules:
                 if val in rule.valid_numbers:
                     suitable_fields.add(rule.field)
-            if x not in ticket_fields:
-                ticket_fields[x] = suitable_fields
-            else:
-                ticket_fields[x] = suitable_fields.intersection(ticket_fields[x])
+            ticket_fields[x] = suitable_fields.intersection(ticket_fields[x]) if x in ticket_fields else suitable_fields
     ticket_fields_final = reduce_options(ticket_fields)
     total = 1
     for i in ticket_fields_final:
@@ -29,8 +26,7 @@ def find_ticket_fields(lines):
 def reduce_options(ticket_fields):
     ticket_fields_final = dict()
     ticket_fields_final_set = set()
-    while True:
-        all_done = True
+    while len(ticket_fields_final) < len(ticket_fields):
         for i in ticket_fields:
             field_options = ticket_fields[i]
             if not len(field_options):
@@ -40,11 +36,8 @@ def reduce_options(ticket_fields):
                 ticket_fields_final[i] = last_field
                 ticket_fields_final_set.add(last_field)
             else:
-                fields_to_keep = field_options - ticket_fields_final_set
-                ticket_fields[i] = fields_to_keep
-                all_done = False
-        if all_done:
-            return ticket_fields_final
+                ticket_fields[i] = field_options - ticket_fields_final_set
+    return ticket_fields_final
 
 
 def get_valid_tickets(rules, nearby_tickets):
