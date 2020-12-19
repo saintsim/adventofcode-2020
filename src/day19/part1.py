@@ -20,9 +20,9 @@ class Rule:
         self.rule_decoded = all_done
 
 
-def rule_checker(lines):
+def rule_checker(lines, max_depth):
     messages = parse(lines)
-    decode_rule(0)
+    decode_rule(0, 0, max_depth)
     match = 0
     for message in messages:
         res = re.match(RULES[0].decoded_rule + '$', message)
@@ -31,14 +31,17 @@ def rule_checker(lines):
     return match
 
 
-def decode_rule(i):
+def decode_rule(i, depth, max_depth):
+    # clearly a hack but helps get us part 2
+    if max_depth != 'no max' and depth > max_depth:
+        return ''
     if RULES[i].rule_decoded:
         return RULES[i].decoded_rule
     decoded_elements = '('
     for element in RULES[i].encoded_rule.split():
         element = element.strip()
         if str(element).isnumeric():
-            decoded_elements += decode_rule(int(element))
+            decoded_elements += decode_rule(int(element), depth+1, max_depth)
         else:
             if element[0] == '"':
                 element = element[-2]
@@ -66,4 +69,4 @@ def parse(lines):
 if __name__ == '__main__':
     with open('input', 'r') as file:
         lines = [line.strip() for line in file.readlines()]
-        print('Result: ' + str(rule_checker(lines)))
+        print('Result: ' + str(rule_checker(lines, 'no max')))
