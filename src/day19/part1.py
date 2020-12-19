@@ -3,12 +3,13 @@
 import re
 
 RULES = dict()
+MESSAGES = []
 
 
 class Rule:
     def __init__(self, encoded_rule):
         self.encoded_rule = encoded_rule
-        self.rule_decoded = False
+        self.rule_already_decoded = False
         self.decoded_rule = ''
 
     def set_decoded_rule(self, decoded_rule):
@@ -17,53 +18,45 @@ class Rule:
         for i in decoded_rule:
             if str(i).isnumeric():
                 all_done = False
-        self.rule_decoded = all_done
+        self.rule_already_decoded = all_done
 
 
 def rule_checker(lines, max_depth):
-    messages = parse(lines)
+    parse(lines)
     decode_rule(0, 0, max_depth)
-    match = 0
-    for message in messages:
-        res = re.match(RULES[0].decoded_rule + '$', message)
-        if res:
-            match += 1
-    return match
+    return find_matches()
+
+
+def find_matches():
+    matches = [re.match(RULES[0].decoded_rule + '$', message) for message in MESSAGES]
+    return len([match for match in matches if match is not None])
 
 
 def decode_rule(i, depth, max_depth):
     # clearly a hack but helps get us part 2
     if max_depth != 'no max' and depth > max_depth:
         return ''
-    if RULES[i].rule_decoded:
+    if RULES[i].rule_already_decoded:
         return RULES[i].decoded_rule
     decoded_elements = '('
     for element in RULES[i].encoded_rule.split():
         element = element.strip()
-        if str(element).isnumeric():
-            decoded_elements += decode_rule(int(element), depth+1, max_depth)
-        else:
-            if element[0] == '"':
-                element = element[-2]
-            decoded_elements += element
+        decoded_elements += decode_rule(int(element), depth+1, max_depth) if str(element).isnumeric() else element.replace('"', '')
     decoded_elements += ')'
-    if len(decoded_elements) == 3:
+    if len(decoded_elements) == 3:  # remove unnecessary brackets
         decoded_elements = decoded_elements[-2]
     RULES[i].decoded_rule = decoded_elements
     return decoded_elements
 
 
 def parse(lines):
-    messages = []
     for line in lines:
-        if line == '':
-            continue
         if ':' in line:
             index, rule = line.split(':')
             RULES[int(index)] = Rule(rule.strip())
-        else:
-            messages.append(line)
-    return messages
+        elif line != '':
+            MESSAGES.append(line)
+    return MESSAGES
 
 
 if __name__ == '__main__':
