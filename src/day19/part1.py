@@ -28,7 +28,7 @@ def rule_checker(lines, max_depth):
 
 
 def find_matches():
-    matches = [re.match(RULES[0].decoded_rule + '$', message) for message in MESSAGES]
+    matches = [re.fullmatch(RULES[0].decoded_rule, message) for message in MESSAGES]
     return len([match for match in matches if match is not None])
 
 
