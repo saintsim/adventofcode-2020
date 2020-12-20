@@ -40,7 +40,10 @@ def decode_rule(i, depth, max_depth):
         return RULES[i].decoded_rule
     decoded_elements = '('
     for element in RULES[i].encoded_rule.split():
-        decoded_elements += decode_rule(int(element), depth+1, max_depth) if str(element).isnumeric() else element.strip('"')
+        if str(element).isnumeric():
+            decoded_elements += decode_rule(int(element), depth+1, max_depth)
+        else:
+            decoded_elements += element.strip('"')
     decoded_elements += ')'
     RULES[i].decoded_rule = decoded_elements
     return decoded_elements
