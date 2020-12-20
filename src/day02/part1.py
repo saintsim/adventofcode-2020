@@ -6,8 +6,7 @@ import re
 def password_checker(lines):
     valid_password_count = 0
     for line in lines:
-        if password_is_valid(line):
-            valid_password_count += 1
+        valid_password_count += password_is_valid(line)
     return valid_password_count
 
 
