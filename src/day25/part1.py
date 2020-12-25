@@ -3,23 +3,24 @@
 
 def encryption_key(file):
     key1, key2 = parse(file)
-    # loop_size1 = decrypt(7, key1, None)
-    loop_size2 = decrypt(7, key2, None)
-    return decrypt(key1, None, loop_size2)
+    # loop_size1 = compute_loop_size(7, key1)
+    loop_size2 = compute_loop_size(7, key2)
+    return compute_key(key1, loop_size2)
 
 
-def decrypt(subject_number, target, target_loop_size):
-    current_value = 1
-    loop_size = 0
-    while True:
-        if target_loop_size:
-            if loop_size == target_loop_size:
-                return current_value
-        elif current_value == target:
-            return loop_size
-        current_value *= subject_number
-        current_value = current_value - (20201227 * (current_value // 20201227))
+def compute_loop_size(subject_number, target):
+    current_value, loop_size = 1, 0
+    while current_value != target:
+        current_value = (current_value * subject_number) % 20201227
         loop_size += 1
+    return loop_size
+
+
+def compute_key(subject_number, target_loop_size):
+    current_value = 1
+    for _ in range(target_loop_size):
+        current_value = (current_value * subject_number) % 20201227
+    return current_value
 
 
 def parse(file):
