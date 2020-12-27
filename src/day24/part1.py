@@ -66,7 +66,6 @@ def run(token_lines):
         x, y = 0, 0
         for token in token_line:
             x, y = next_tile(x, y, token)
-
         if x in TILES:
             if y in TILES[x]:
                 TILES[x][y].flip(x, y)
