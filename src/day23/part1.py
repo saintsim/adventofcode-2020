@@ -56,10 +56,8 @@ def cups(file):
         print('Current cup: {0}'.format(current_cup))
         print('Picked up: {0}'.format(picked_up_cups))
         print('Destination: {0}'.format(destination_cup))
-        new_cups = list(CUPS)
         # remove the picked up cups
-        for picked_up in picked_up_cups:
-            new_cups.remove(picked_up)
+        new_cups = [cup for cup in CUPS if cup not in picked_up_cups]
         # add them back in after the destination cup
         destination_cup_idx = new_cups.index(destination_cup)
         for y in range(1, 4):
