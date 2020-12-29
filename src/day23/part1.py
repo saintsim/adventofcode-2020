@@ -31,11 +31,7 @@ def get_destination_cup(current_cup, picked_up_cups, other_cups):
 
 
 def get_output():
-    one_index = CUPS.index(1)
-    out = ''
-    for i in range(1, len(CUPS)):
-        out += str(CUPS[get_cup_idx(one_index + i)])
-    return out
+    return ''.join([str(CUPS[get_cup_idx(CUPS.index(1) + i)]) for i in range(1, len(CUPS))])
 
 
 def cups(file):
