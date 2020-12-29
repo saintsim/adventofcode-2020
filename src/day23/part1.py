@@ -24,7 +24,7 @@ def get_destination_cup(current_cup, picked_up_cups, other_cups):
             break
     while desired_number >= 0:
         for val in other_cups:
-            if val == desired_number and val != 0:
+            if val == desired_number:
                 return val
         desired_number -= 1
     return max(other_cups)
