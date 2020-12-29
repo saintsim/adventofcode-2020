@@ -17,17 +17,9 @@ def get_other_cups(current, picked_up):
 
 def get_destination_cup(current_cup, picked_up_cups, other_cups):
     desired_number = current_cup-1
-    for x in range(4):
-        possible_number = desired_number-x
-        if possible_number not in picked_up_cups:
-            desired_number = possible_number
-            break
-    while desired_number >= 0:
-        for val in other_cups:
-            if val == desired_number:
-                return val
+    while desired_number in picked_up_cups:
         desired_number -= 1
-    return max(other_cups)
+    return desired_number if desired_number > 0 else max(other_cups)
 
 
 def get_output():
