@@ -7,24 +7,20 @@ def get_cup_idx(x):
     return x % len(CUPS)
 
 
-def get_cup(x):
-    return get_cup_idx(x), CUPS[get_cup_idx(x)]
-
-
 def get_picked_up_cups(current_cup_idx):
     return [CUPS[get_cup_idx(current_cup_idx + y)] for y in range(1, 4)]
 
 
 def get_other_cups(current, picked_up):
     other_cups = list(CUPS)
-    other_cups.remove(current[1])
+    other_cups.remove(current)
     for p in picked_up:
         other_cups.remove(p)
     return other_cups
 
 
 def get_destination_cup(current_cup, picked_up_cups, other_cups):
-    desired_number = current_cup[1]-1
+    desired_number = current_cup-1
     for x in range(4):
         possible_number = desired_number-x
         if possible_number not in picked_up_cups:
@@ -33,9 +29,9 @@ def get_destination_cup(current_cup, picked_up_cups, other_cups):
     while desired_number >= 0:
         for val in other_cups:
             if val == desired_number and val != 0:
-                return get_cup(CUPS.index(val))
+                return val
         desired_number -= 1
-    return get_cup(CUPS.index(max(other_cups)))
+    return max(other_cups)
 
 
 def get_output():
@@ -53,23 +49,23 @@ def cups(file):
     for i in range(100):
         print('-- move {0} --\n{1}'.format(i+1, CUPS))
         # get the parts
-        current_cup = get_cup(current_cup_idx)
-        picked_up_cups = get_picked_up_cups(current_cup[0])
+        current_cup = CUPS[current_cup_idx]
+        picked_up_cups = get_picked_up_cups(current_cup_idx)
         other_cups = get_other_cups(current_cup, picked_up_cups)
         destination_cup = get_destination_cup(current_cup, picked_up_cups, other_cups)
-        print('Current cup: {0}'.format(current_cup[1]))
+        print('Current cup: {0}'.format(current_cup))
         print('Picked up: {0}'.format(picked_up_cups))
-        print('Destination: {0}'.format(destination_cup[1]))
+        print('Destination: {0}'.format(destination_cup))
         new_cups = list(CUPS)
         # remove the picked up cups
         for picked_up in picked_up_cups:
             new_cups.remove(picked_up)
         # add them back in after the destination cup
-        destination_cup_idx = new_cups.index(destination_cup[1])
+        destination_cup_idx = new_cups.index(destination_cup)
         for y in range(1, 4):
             new_cups.insert(destination_cup_idx + y, picked_up_cups[y-1])
         CUPS = new_cups
-        current_cup_idx = get_cup_idx(CUPS.index(current_cup[1])+1)
+        current_cup_idx = get_cup_idx(CUPS.index(current_cup)+1)
     print('-- final --\n{0}'.format(CUPS))
     return get_output()
 
