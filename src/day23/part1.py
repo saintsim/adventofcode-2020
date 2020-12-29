@@ -12,11 +12,7 @@ def get_picked_up_cups(current_cup_idx):
 
 
 def get_other_cups(current, picked_up):
-    other_cups = list(CUPS)
-    other_cups.remove(current)
-    for p in picked_up:
-        other_cups.remove(p)
-    return other_cups
+    return [cup for cup in CUPS if cup != current and cup not in picked_up]
 
 
 def get_destination_cup(current_cup, picked_up_cups, other_cups):
