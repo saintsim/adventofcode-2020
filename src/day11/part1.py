@@ -5,7 +5,7 @@ def waiting_area(seat_map):
     round = 0
     while True:
         print(round)
-        new_seat_map = list(generate_new_seat_map(seat_map))
+        new_seat_map = generate_new_seat_map(seat_map)
         if new_seat_map == seat_map:
             break
         seat_map = new_seat_map
