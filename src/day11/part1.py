@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 
-def waiting_area(lines):
-    seat_map = parse(lines)
+def waiting_area(seat_map):
     round = 0
     while True:
         print(round)
@@ -54,18 +53,9 @@ def new_value(x, y, seat_map):
 
 
 def cell_value(x, y, seat_map):
-    if x < 0 or x >= len(seat_map):
-        return '.'
-    if y < 0 or y >= len(seat_map[0]):
+    if x < 0 or x >= len(seat_map) or y < 0 or y >= len(seat_map[0]):
         return '.'
     return seat_map[x][y]
-
-
-def parse(lines):
-    seat_map = []
-    for line in lines:
-        seat_map.append([cell for cell in line])
-    return seat_map
 
 
 if __name__ == '__main__':
