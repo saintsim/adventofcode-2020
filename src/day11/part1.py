@@ -58,19 +58,13 @@ def cell_value(x, y, seat_map):
         return '.'
     if y < 0 or y >= len(seat_map[0]):
         return '.'
-    try:
-        return seat_map[x][y]
-    except:
-        pass
+    return seat_map[x][y]
 
 
 def parse(lines):
     seat_map = []
     for line in lines:
-        row = []
-        for cell in line:
-            row.append(cell)
-        seat_map.append(row)
+        seat_map.append([cell for cell in line])
     return seat_map
 
 
