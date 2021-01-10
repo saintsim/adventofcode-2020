@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+EMPTY, OCCUPIED, FLOOR = 'L', '#', '.'
+
 
 def waiting_area(seat_map):
     round = 0
@@ -13,8 +15,13 @@ def waiting_area(seat_map):
     return occupied_count(seat_map)
 
 
+def print_map(seat_map):
+    for row in seat_map:
+        print(row)
+
+
 def occupied_count(seat_map):
-    return sum([row.count('#') for row in seat_map])
+    return sum([row.count(OCCUPIED) for row in seat_map])
 
 
 def generate_new_seat_map(seat_map):
@@ -44,17 +51,17 @@ def new_value(x, y, seat_map):
         cell_value(x+1, y, seat_map),    # g
         cell_value(x+1, y+1, seat_map)   # h
     ]
-    occupied_count = adjacent_cells.count('#')
-    if current == 'L' and occupied_count == 0:
-        return '#'
-    if current == '#' and occupied_count >= 4:
-        return 'L'
+    occupied_count = adjacent_cells.count(OCCUPIED)
+    if current == EMPTY and occupied_count == 0:
+        return OCCUPIED
+    if current == OCCUPIED and occupied_count >= 4:
+        return EMPTY
     return current
 
 
 def cell_value(x, y, seat_map):
     if x < 0 or x >= len(seat_map) or y < 0 or y >= len(seat_map[0]):
-        return '.'
+        return FLOOR
     return seat_map[x][y]
 
 
